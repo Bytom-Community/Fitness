@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangzi.btmfitness.dao.BtmAccountDao">
+    <sql id="columns">
+      a.id,
+      a.account_id as "accountId",
+      a.open_id as "openId",
+      a.key_secret as "keySecret",
+      a.key_alias as "keyAlias",
+      a.key_public as "keyPublic",
+      a.account_alias as "accountAlias",
+      a.receiver_address as "receiverAddress",
+      a.control_program as "controlProgram",
+      a.create_time as "createTime",
+      a.update_time as "updateTime",
+      a.remarks
+    </sql>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+      insert into btm_account (
+        account_id,
+        open_id,
+        key_secret,
+        key_alias,
+        key_public,
+        account_alias,
+        receiver_address,
+        control_program,
+        create_time,
+        update_time,
+        remarks
+      ) values (
+        #{accountId},
+        #{openId},
+        #{keySecret},
+        #{keyAlias},
+        #{keyPublic},
+        #{accountAlias},
+        #{receiverAddress},
+        #{controlProgram},
+        #{createTime},
+        #{updateTime},
+        #{remarks}
+      )
+    </insert>
+    <select id="get" resultType="BtmAccount">
+      select
+      <include refid="columns"/>
+        from btm_account a where open_id = #{openId}
+    </select>
+    <select id="getByAccountAlias" resultType="BtmAccount">
+      select
+      <include refid="columns"/>
+      from btm_account a where account_alias = #{accountAlias}
+    </select>
+</mapper>

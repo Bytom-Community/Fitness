@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangzi.btmfitness.dao.AdRecordDao">
+    <sql id="columns">
+      a.id,
+      a.ad_id as "adId",
+      a.open_id as "openId",
+      a.target,
+      a.enter_power as "enterPower",
+      a.current_power as "currentPower",
+      a.finished,
+      a.win_token as "winToken",
+      a.create_time as "createTime",
+      a.update_time as "updateTime",
+      a.remarks
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+      insert into ad_record (
+        ad_id,
+        open_id,
+        target,
+        enter_power,
+        current_power,
+        finished,
+        win_token,
+        create_time,
+        update_time,
+        remarks
+      ) values (
+        #{adId},
+        #{openId},
+        #{target},
+        #{enterPower},
+        #{currentPower},
+        #{finished},
+        #{winToken},
+        #{createTime},
+        #{updateTime},
+        #{remarks}
+      )
+    </insert>
+
+    <update id="update">
+        update ad_record set
+        current_power = #{currentPower},
+        finished = #{finished},
+        remarks = #{remarks},
+        update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <update id="endingUpdate">
+        update ad_record set
+        win_token = #{winToken},
+        update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <select id="get" resultType="AdRecord">
+        select
+        <include refid="columns"/>
+        from ad_record a where open_id = #{openId} AND ad_id = #{adId}
+    </select>
+
+    <select id="findList" resultType="AdRecord">
+        select
+        <include refid="columns"/>
+        from ad_record a
+        where ad_id = #{adId} order by create_time desc
+    </select>
+
+    <select id="countRecord" resultType="Long">
+      select IFNULL(count(1),0) from ad_record where ad_id = #{adId}
+    </select>
+</mapper>

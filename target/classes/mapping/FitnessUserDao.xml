@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangzi.btmfitness.dao.FitnessUserDao">
+    <sql id="columns">
+      a.id,
+      a.nick_name as "nickName",
+      a.gender,
+      a.country,
+      a.province,
+      a.city,
+      a.language,
+      a.avatar_url as "avatarUrl",
+      a.open_id as "openId",
+      a.btm_account as "btmAccount",
+--       a.private_key as "privateKey",
+      a.create_time as "createTime",
+      a.update_time as "updateTime",
+      a.remarks
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into fitness_user (
+          nick_name,
+          gender,
+          country,
+          province,
+          city,
+          language,
+          avatar_url,
+          open_id,
+          btm_account,
+          private_key,
+          create_time,
+          update_time,
+          remarks
+        ) values (
+          #{nickName},
+          #{gender},
+          #{country},
+          #{province},
+          #{city},
+          #{language},
+          #{avatarUrl},
+          #{openId},
+          #{btmAccount},
+          #{privateKey},
+          #{createTime},
+          #{updateTime},
+          #{remarks}
+        )
+    </insert>
+
+    <select id="findList" resultType="FitnessUser">
+        select
+        <include refid="columns"/>
+        from fitness_user a
+    </select>
+
+    <select id="getByOpenId" resultType="FitnessUser">
+        select
+        <include refid="columns"/>
+        from fitness_user a where open_id = #{openId}
+    </select>
+
+    <update id="update">
+        update fitness_user set
+        nick_name = #{nickName},
+        gender = #{gender},
+        country = #{country},
+        province = #{province},
+        city = #{city},
+        language = #{language},
+        avatar_url = #{avatarUrl},
+        update_time = #{updateTime}
+        where open_id = #{openId}
+    </update>
+    <update id="updateBtmAccount">
+        update fitness_user set btm_account = #{btmAccount} where open_id = #{openId}
+    </update>
+</mapper>

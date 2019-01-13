@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangzi.btmfitness.dao.TargetDao">
+    <sql id="columns">
+      a.id,
+      a.open_id as "openId",
+      a.target,
+      a.bet_amount as "betAmount",
+      a.payout,
+      a.win_amount as "winAmount",
+      a.is_finish as "isFinish",
+      a.finish_way as "finishWay",
+      a.win_run as "winRun",
+      a.create_time as "createTime",
+      a.update_time as "updateTime",
+      a.remarks
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+      insert into target (
+        open_id,
+        target,
+        bet_amount,
+        payout,
+        win_amount,
+        is_finish,
+        finish_way,
+        win_run,
+        create_time,
+        update_time,
+        remarks
+      ) values (
+        #{openId},
+        #{target},
+        #{betAmount},
+        #{payout},
+        #{winAmount},
+        #{isFinish},
+        #{finishWay},
+        #{winRun},
+        #{createTime},
+        #{updateTime},
+        #{remarks}
+      )
+    </insert>
+
+    <select id="get" resultType="Target">
+        select
+        <include refid="columns"/>
+        from target a where open_id = #{openId}
+        and create_time >= #{startTime} and #{endTime} >= create_time
+    </select>
+
+    <update id="update">
+        update target set
+          is_finish = #{isFinish},
+          finish_way = #{finishWay},
+          win_run = #{winRun},
+          update_time = #{updateTime},
+          remarks = #{remarks}
+        where id = #{id}
+    </update>
+    <select id="findList" resultType="Target">
+        select
+        <include refid="columns"/>
+        from target a where finish_way = 0
+        and create_time >= #{startTime} and #{endTime} >= create_time;
+    </select>
+    <select id="findListByMonth" resultType="Target">
+        select
+        <include refid="columns"/>
+        from target a where open_id = #{openId}
+        and create_time >= #{startTime} and #{endTime} >= create_time;
+    </select>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangzi.btmfitness.dao.ContractRecordDao">
+    <sql id="columns">
+      a.id,
+      a.open_id as "openId",
+      a.target_id as "targetId",
+      a.program,
+      a.tx_id as "txId",
+      a.unspent_id as "unspentId",
+      a.value,
+      a.amount,
+      a.is_unlock as "isUnlock",
+      a.unlock_value as "unlockValue",
+      a.create_time as "createTime",
+      a.update_time as "updateTime",
+      a.remarks
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into contract_record (
+          open_id,
+          target_id,
+          program,
+          tx_id,
+          unspent_id,
+          value,
+          amount,
+          is_unlock,
+          unlock_value,
+          create_time,
+          update_time,
+          remarks
+        ) values (
+          #{openId},
+          #{targetId},
+          #{program},
+          #{txId},
+          #{unspentId},
+          #{value},
+          #{amount},
+          #{isUnlock},
+          #{unlockValue},
+          #{createTime},
+          #{updateTime},
+          #{remarks}
+        )
+    </insert>
+
+    <select id="get" resultType="ContractRecord">
+        select
+        <include refid="columns"/>
+        from contract_record a
+        where target_id = #{targetId}
+    </select>
+
+    <update id="update">
+        update contract_record set
+          is_unlock = #{isUnlock},
+          unlock_value = #{unlockValue},
+          update_time = #{updateTime},
+          remarks = #{remarks}
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--设置驼峰转换-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <!--整个包配置，别名默认为类名 不配置则会出现.xml中找不到实体-->
+        <package name="com.pangzi.btmfitness.entity"></package>
+    </typeAliases>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!--<property name="dialect" value="mysql"/>-->
+        </plugin>
+    </plugins>
+</configuration>

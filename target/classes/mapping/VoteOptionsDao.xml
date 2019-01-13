@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangzi.btmfitness.dao.VoteOptionsDao">
+    <sql id="columns">
+      a.id,
+      a.vote_id as "voteId",
+      a.image,
+      a.content,
+      a.show_type as "showType",
+      a.create_time as "createTime",
+      a.update_time as "updateTime",
+      a.remarks
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+      insert into vote_options (
+        vote_id,
+        image,
+        content,
+        show_type,
+        create_time,
+        update_time,
+        remarks
+      ) values (
+        #{voteId},
+        #{image},
+        #{content},
+        #{showType},
+        #{createTime},
+        #{updateTime},
+        #{remarks}
+      )
+    </insert>
+
+    <select id="get" resultType="VoteOptions">
+        select
+        <include refid="columns"/>
+        from vote_options a where id = #{id}
+    </select>
+
+    <select id="findList" resultType="VoteOptions">
+        select
+        <include refid="columns"/>
+        from vote_options a
+        where vote_id = #{voteId} order by create_time desc
+    </select>
+</mapper>

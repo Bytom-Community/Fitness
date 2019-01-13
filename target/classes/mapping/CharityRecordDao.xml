@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pangzi.btmfitness.dao.CharityRecordDao">
+    <sql id="columns">
+      a.id,
+      a.charity_id as "charityId",
+      a.open_id as "openId",
+      a.tx_id as "txId",
+      a.power_number as "powerNumber",
+      a.memo,
+      a.charity_token as "charityToken",
+      a.prove_hash as "proveHash",
+      a.donate_amount as "donateAmount",
+      a.create_time as "createTime",
+      a.update_time as "updateTime",
+      a.remarks
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+      insert into charity_record (
+        charity_id,
+        open_id,
+        tx_id,
+        power_number,
+        memo,
+        charity_token,
+        prove_hash,
+        donate_amount,
+        create_time,
+        update_time,
+        remarks
+      ) values (
+        #{charityId},
+        #{openId},
+        #{txId},
+        #{powerNumber},
+        #{memo},
+        #{charityToken},
+        #{proveHash},
+        #{donateAmount},
+        #{createTime},
+        #{updateTime},
+        #{remarks}
+      )
+    </insert>
+
+    <select id="get" resultType="CharityRecord">
+        select
+        <include refid="columns"/>
+        from charity_record a where id = #{id}
+    </select>
+
+    <select id="getByOpenIdAndId" resultType="CharityRecord">
+        select
+        <include refid="columns"/>
+        from charity_record a where charity_id = #{charityId} and open_id = #{openId}
+    </select>
+
+    <select id="findList" resultType="CharityRecord">
+        select
+        <include refid="columns"/>
+        from charity_record a
+        where open_id = #{openId} order by create_time desc
+    </select>
+
+    <select id="findListForCharity" resultType="CharityRecord">
+        select
+        <include refid="columns"/>
+        from charity_record a
+        where charity_id = #{charityId} order by create_time desc
+    </select>
+
+    <select id="countRecord" resultType="Long">
+      select IFNULL(count(1),0) from charity_record where charity_id = #{charityId}
+    </select>
+
+    <select id="sumPowerNumber" resultType="Long">
+      select IFNULL(sum(power_number),0) from charity_record where charity_id = #{charityId}
+    </select>
+</mapper>
